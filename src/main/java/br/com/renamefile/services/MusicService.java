@@ -67,24 +67,27 @@ public class MusicService {
 		System.out.println("Iniciando remoção do prefixo...");
 		
 		File[] sourceFiles = findSourceFiles(suffleMusic);
+		
+		if (sourceFiles != null) {
+			try {
+				for (File file : sourceFiles) {
+					String fileName = file.getName();
 
-		try {
-			for (File file : sourceFiles) {
-				String fileName = file.getName();
-
-				fileName = fileName.replaceAll("\\d{3} - ", "");
-				file.renameTo(new File(suffleMusic.getSourceFolder().concat("\\").concat(fileName)));
+					fileName = fileName.replaceAll("\\d{3} - ", "");
+					file.renameTo(new File(suffleMusic.getSourceFolder().concat("\\").concat(fileName)));
+				}
+			} catch (Exception e) {
+				System.err.println("Erro ao renomear arquivo. Remover o prefixo.");
+				e.printStackTrace();
+				
+				return false;
 			}
-		} catch (Exception e) {
-			System.err.println("Erro ao renomear arquivo. Remover o prefixo.");
-			e.printStackTrace();
 			
-			return false;
-		}
-		
-		System.out.println(String.format("Quantidade de arquivos renomeados: %d", sourceFiles.length));
-		
-		return true;
+			System.out.println(String.format("Quantidade de arquivos renomeados: %d", sourceFiles.length));
+			
+			return true;
+		} else
+			return false;		
 	}
 
 	private File[] findSourceFiles(SuffleMusicDTO suffleMusic) {
@@ -93,6 +96,12 @@ public class MusicService {
 
 		try {
 			sourceFolder = new File(suffleMusic.getSourceFolder());
+			
+			if (!sourceFolder.exists()) {
+				System.err.println("A pasta raiz selecionada não existe.");
+				
+				return null;
+			}
 		} catch (Exception e) {
 			System.err.println("Erro ao obter pasta raiz.");
 			e.printStackTrace();

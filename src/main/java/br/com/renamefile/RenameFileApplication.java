@@ -8,12 +8,12 @@ public class RenameFileApplication {
 	public static void main(String[] args) {
 		MusicService musicService = new MusicService();
 		
-		String sourceFolder = "C:\\Users\\alexa\\Desktop\\Nova pasta";
+		String sourceFolder = "C:\\Users\\alexa\\Desktop\\Nova pasta\\teste";
 		
 		if (musicService.shuffleMusic(new SuffleMusicDTO(sourceFolder)))
 			System.out.println("Arquivos renomeados com sucesso!!!");
 		else
-			System.out.println("Aconteceu algum erro ao renomear os arquivos.");
+			System.out.println("\nAconteceu algum erro ao renomear os arquivos.");
 
 	}
 }
